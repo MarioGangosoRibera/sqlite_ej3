@@ -34,7 +34,7 @@ class _InsertarDatoState extends State<InsertarDato> {
                 fontWeight: FontWeight.bold
               ),
             ),
-            
+
             SizedBox(height: 20),
             ToggleButtons(
               isSelected: [
@@ -47,17 +47,17 @@ class _InsertarDatoState extends State<InsertarDato> {
                 });
               },
               borderRadius: BorderRadius.circular(8),
-              fillColor: _selectedIndex == 0 ? Colors.red : Colors.green,
+              fillColor: _selectedIndex == 0 ? Colors.green : Colors.red,
               selectedColor: Colors.white,
               color: Colors.black,
               children: const [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Gasto', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text('Ingreso', style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Ingreso', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text('Gasto', style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -65,8 +65,10 @@ class _InsertarDatoState extends State<InsertarDato> {
             SizedBox(height: 20),
             DropdownButton<String>(
               value: _categoria,
-              items: categorias.map((c) {
-                return DropdownMenuItem(value: c, child: Text(c));
+              items: categorias.map((opcion) {
+                return DropdownMenuItem(
+                  value: opcion, 
+                  child: Text(opcion));
               }).toList(),
               onChanged: (value) => setState(() => _categoria = value!),
             ),
@@ -74,14 +76,17 @@ class _InsertarDatoState extends State<InsertarDato> {
             SizedBox(height: 20),
             TextField(
               controller: _cantidadController,
-              decoration: const InputDecoration(labelText: 'Cantidad €'),
+              decoration: const InputDecoration(
+                labelText: 'Cantidad',
+                suffixText: '€'
+              ),
               keyboardType: TextInputType.number,
             ),
 
             SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: _selectedIndex == 0 ? Colors.red : Colors.green,
+                backgroundColor: _selectedIndex == 0 ? Colors.green : Colors.red ,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqlite_ej3/drawer.dart';
 import 'package:sqlite_ej3/pantalla_insertar.dart';
+import 'package:sqlite_ej3/pantalla_transacciones.dart';
 import 'transacciones_provider.dart';
 
 void main() async {
@@ -32,13 +33,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final screens = const [
       InsertarDato(),
-      //Transacciones(),
+      Transacciones(),
     ];
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(title: const Text('Gestor')),
+        appBar: AppBar(),
         drawer: AppDrawer(
           selectedIndex: _selectedIndex,
           onItemTap: (index) {
