@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqlite_ej3/drawer.dart';
+import 'package:sqlite_ej3/pantalla_configuracion.dart';
 import 'package:sqlite_ej3/pantalla_insertar.dart';
 import 'package:sqlite_ej3/pantalla_transacciones.dart';
 import 'transacciones_provider.dart';
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
     final screens = const [
       InsertarDato(),
       Transacciones(),
+      Configuracion()
     ];
 
     return MaterialApp(

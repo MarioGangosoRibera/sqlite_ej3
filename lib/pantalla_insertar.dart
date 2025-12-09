@@ -46,11 +46,10 @@ class _InsertarDatoState extends State<InsertarDato> {
                   _selectedIndex = index;
                 });
               },
-              borderRadius: BorderRadius.circular(8),
               fillColor: _selectedIndex == 0 ? Colors.green : Colors.red,
               selectedColor: Colors.white,
               color: Colors.black,
-              children: const [
+              children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text('Ingreso', style: TextStyle(fontWeight: FontWeight.bold)),
