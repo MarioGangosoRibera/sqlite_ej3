@@ -34,6 +34,7 @@ class _InsertarDatoState extends State<InsertarDato> {
                 fontWeight: FontWeight.bold
               ),
             ),
+            
             SizedBox(height: 20),
             ToggleButtons(
               isSelected: [
@@ -60,6 +61,7 @@ class _InsertarDatoState extends State<InsertarDato> {
                 ),
               ],
             ),
+
             SizedBox(height: 20),
             DropdownButton<String>(
               value: _categoria,
@@ -68,6 +70,7 @@ class _InsertarDatoState extends State<InsertarDato> {
               }).toList(),
               onChanged: (value) => setState(() => _categoria = value!),
             ),
+
             SizedBox(height: 20),
             TextField(
               controller: _cantidadController,
