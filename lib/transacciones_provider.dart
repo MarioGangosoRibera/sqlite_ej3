@@ -19,7 +19,8 @@ class TransaccionesProvider extends ChangeNotifier {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         tipo TEXT NOT NULL,
         categoria TEXT NOT NULL,
-        cantidad REAL NOT NULL
+        cantidad REAL NOT NULL,
+        fecha TEXT NOT NULL
       )
     ''');
 
@@ -31,12 +32,23 @@ class TransaccionesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insertarTransaccion(String tipo, String categoria, double cantidad) async {
+  Future<void> insertarTransaccion(
+    String tipo,
+    String categoria,
+    double cantidad,
+  ) async {
     await _db.insert('transacciones', {
       'tipo': tipo,
       'categoria': categoria,
       'cantidad': cantidad,
+      'fecha': DateTime.now().toIso8601String(),
     });
+
+    await cargarTransacciones();
+  }
+
+  Future<void> eliminarTransaccion(int id) async {
+    await _db.delete('transacciones', where: 'id = ?', whereArgs: [id]);
     await cargarTransacciones();
   }
 }

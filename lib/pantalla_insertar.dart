@@ -16,6 +16,30 @@ class _InsertarDatoState extends State<InsertarDato> {
 
   final categorias = ['Comida', 'Transporte', 'Ocio', 'Otros'];
 
+  void _mostrarSnackBar(String msg, {bool error = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: error ? Colors.red : Colors.green,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  bool validar() {
+    if (_selectedIndex == -1) {
+      _mostrarSnackBar('Selecciona un tipo', error: true);
+      return false;
+    }
+
+    final cantidad = double.tryParse(_cantidadController.text);
+    if (cantidad == null || cantidad <= 0) {
+      _mostrarSnackBar('Cantidad invalida', error: true);
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TransaccionesProvider>(context, listen: false);
@@ -29,18 +53,12 @@ class _InsertarDatoState extends State<InsertarDato> {
           children: [
             Text(
               'Insertar Transacción',
-              style: TextStyle(
-                fontSize: 22, 
-                fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
             SizedBox(height: 20),
             ToggleButtons(
-              isSelected: [
-                _selectedIndex == 0,
-                _selectedIndex == 1,
-              ],
+              isSelected: [_selectedIndex == 0, _selectedIndex == 1],
               onPressed: (index) {
                 setState(() {
                   _selectedIndex = index;
@@ -52,11 +70,17 @@ class _InsertarDatoState extends State<InsertarDato> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Ingreso', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Ingreso',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Gasto', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Gasto',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
@@ -65,9 +89,7 @@ class _InsertarDatoState extends State<InsertarDato> {
             DropdownButton<String>(
               value: _categoria,
               items: categorias.map((opcion) {
-                return DropdownMenuItem(
-                  value: opcion, 
-                  child: Text(opcion));
+                return DropdownMenuItem(value: opcion, child: Text(opcion));
               }).toList(),
               onChanged: (value) => setState(() => _categoria = value!),
             ),
@@ -77,7 +99,7 @@ class _InsertarDatoState extends State<InsertarDato> {
               controller: _cantidadController,
               decoration: const InputDecoration(
                 labelText: 'Cantidad',
-                suffixText: '€'
+                suffixText: '€',
               ),
               keyboardType: TextInputType.number,
             ),
@@ -85,18 +107,29 @@ class _InsertarDatoState extends State<InsertarDato> {
             SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: _selectedIndex == 0 ? Colors.green : Colors.red ,
+                backgroundColor: _selectedIndex == 0
+                    ? Colors.green
+                    : Colors.red,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 12,
+                ),
               ),
               onPressed: () {
-                if (_selectedIndex == -1 || _cantidadController.text.isEmpty) return;
-                final tipo = _selectedIndex == 0 ? 'Gasto' : 'Ingreso';
+                if (!validar()) return;
+
+                final tipo = _selectedIndex == 0 ? 'Ingreso' : 'Gasto';
+                final cantidad = double.parse(_cantidadController.text);
+
                 provider.insertarTransaccion(
                   tipo,
                   _categoria,
-                  double.parse(_cantidadController.text),
+                  cantidad,
                 );
+
+                _mostrarSnackBar('Transacción guardada');
+
                 _cantidadController.clear();
                 setState(() => _selectedIndex = -1);
               },
